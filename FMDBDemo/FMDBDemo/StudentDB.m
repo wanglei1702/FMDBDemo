@@ -87,33 +87,129 @@ static StudentDB *instance = nil;
     }
 }
 
-#pragma mark - 增加数据
-
-/*
  "INSERT OR REPLACE" 和 "UPDATE" 的区别：
- "INSERT OR REPLACE" : 插入一条新的数据， 若已经存在相同的PRIMARY KEY或 UNIQUE，则先删除旧的数据，再插入新的
- "UPDATE" ：
-*/
-/// 插入数据,
-- (void)updateWith:(NSInteger)studentID name:(NSString *)name age:(NSInteger)age
+#pragma mark - 增 增加数据
+/// 插入一条数据，如果已经存在(id UNIQUE)，则替换
+- (void)insertWithID:(NSInteger)sID name:(NSString *)name age:(NSInteger)age
 {
-    BOOL res = NO;
     NSString *sql = nil;
-    
-#if 0 // 方式 1，（这里为了演示，忽略了传入的参数，值写死）
-    sql = @"INSERT OR REPLACE INTO student (id, name, age) VALUES (20007, 'trump', 71)";
-    res = [self.fmDatabase executeUpdate:sql];
-#elif 1 // 方式 2， UPDATE 已经存在的更新, SET, WHERE
-    sql = @"UPDATE student SET age = 1234567";
-    res = [self.fmDatabase executeUpdate:sql];
-#elif 0 // 实现方式 1
+    BOOL res = NO;
+#if 1   // 方式 1
     sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (id, name, age) VALUES (?, ?, ?)", STUDENT_DB_TABLE_STUDENT];
-    // 后面的参数必须是 id 类型，不可以是基础数据类型
-    res = [self.fmDatabase executeUpdate:sql, @(20002), @"Steve", @(18)];
-#elif 0 // 实现方式 2
-    
+    res = [self.fmDatabase executeUpdate:sql, @(sID), name, @(age)];
+#elif 0 // 方式 2
+    sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (id, name, age) VALUES (%%@, %%@, %%@)", STUDENT_DB_TABLE_STUDENT];
+    res = [self.fmDatabase executeUpdateWithFormat:sql, @(sID), name, @(age)];
+#elif 0 // 方式3, 字段的值直接写到sql语句中
+    sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (id, name, age) VALUES (20027, 'obama27', 20)", STUDENT_DB_TABLE_STUDENT];
+    res = [self.fmDatabase executeUpdate:sql];
 #endif
-    NSLog(@"插入 %@ %@", name, res ? @"成功" : @"失败");
+    
+    NSLog(@"插入 sID : %@, name : %@ %@ !", @(sID), name, res ? @"成功" : @"失败");
 }
+
+#pragma mark - 删
+/// 根据sID删除一条数据
+- (void)removeWithID:(NSInteger)sID
+{
+    NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE id = %@", STUDENT_DB_TABLE_STUDENT, @(sID)];
+    BOOL res = [self.fmDatabase executeUpdate:sql];
+    NSLog(@"删除 id : %@ %@ !", @(sID), res ? @"成功" : @"失败");
+}
+
+#pragma mark - 改
+/// 根据sID修改age
+- (void)updateWithID:(NSInteger)sID age:(NSInteger)age
+{
+    BOOL exist = NO;
+    NSString *sql = nil;
+    BOOL res = NO;
+#if 0 // 不管是否存在这条数据，都直接执行修改；若数据不存在，改语句执行之后数据库不会有变化
+    sql = [NSString stringWithFormat:@"UPDATE %@ SET age = ? WHERE id = %@", STUDENT_DB_TABLE_STUDENT, @(sID)];
+    res = [self.fmDatabase executeUpdate:sql, @(age)];
+#elif 1 // 先判断是否存在这条数据，如果存在则修改，否则增加一条数据
+    exist = [self checkExistSID:sID];
+    if (exist) {
+        // 存在
+        sql = [NSString stringWithFormat:@"UPDATE %@ SET age = ? WHERE id = %@", STUDENT_DB_TABLE_STUDENT, @(sID)];
+        res = [self.fmDatabase executeUpdate:sql, @(age)];
+    } else {
+        // 不存在, 则插入
+        sql = [NSString stringWithFormat:@"INSERT INTO %@ (id, age) VALUES (?, ?)", STUDENT_DB_TABLE_STUDENT];
+        res = [self.fmDatabase executeUpdate:sql, @(sID), @(age)];
+    }
+#endif
+    
+    NSLog(@"修改 id : %@ 为 age : %@ %@", @(sID), @(age), res ? @"成功" : @"失败");
+}
+
+#pragma mark - 查
+/// 所有数据
+- (NSArray<NSDictionary *> *)allStudents
+{
+    NSMutableArray<NSDictionary *> *resArray = [NSMutableArray array];
+    
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@", STUDENT_DB_TABLE_STUDENT];
+//    BOOL res = [self.fmDatabase executeUpdate:sql];
+    FMResultSet *resSet = [self.fmDatabase executeQuery:sql];
+    while ([resSet next]) {
+        NSInteger sid = [resSet longForColumn:@"id"];
+        NSString *name = [resSet stringForColumn:@"name"];
+        NSInteger age = [resSet longForColumn:@"age"];
+        NSDictionary *dict = @{@"id" : @(sid),
+                               @"name" : name,
+                               @"age" : @(age)};
+        [resArray addObject:dict];
+    }
+    
+    return resArray;
+}
+
+/// 根据id (UNIQUE) 查数据，没有查到返回 nil
+- (nullable NSDictionary *)studentWithSID:(NSInteger)sid
+{
+    // 仅查询指定字段
+    NSString *sql = [NSString stringWithFormat:@"SELECT id, name FROM %@ WHERE id = %@", STUDENT_DB_TABLE_STUDENT, @(sid)];
+    FMResultSet *resSet = [self.fmDatabase executeQuery:sql];
+    while ([resSet next]) {
+        // 仅取出 id 和 name
+        NSInteger sid = [resSet longForColumn:@"id"];
+        NSString *name = [resSet stringForColumn:@"name"];
+        NSInteger age = [resSet longForColumn:@"age"];
+        NSDictionary *dict = @{@"id" : @(sid),
+                               @"name" : name,
+                               @"age" : @(age) // 查询语句中没有指定查询age字段，所以这里取出来是默认值0; FMDB Warning: I could not find the column named 'age'.
+                               };
+        return dict;
+    }
+    return nil;
+}
+
+- (BOOL)checkExistSID:(NSInteger)sid
+{
+    return ([self studentWithSID:sid] != nil);
+}
+
+/// 插入数据,
+//- (void)updateWith:(NSInteger)studentID name:(NSString *)name age:(NSInteger)age
+//{
+//    BOOL res = NO;
+//    NSString *sql = nil;
+//
+//#if 0 // 方式 1，（这里为了演示，忽略了传入的参数，值写死）
+//    sql = @"INSERT OR REPLACE INTO student (id, name, age) VALUES (20007, 'trump', 71)";
+//    res = [self.fmDatabase executeUpdate:sql];
+//#elif 1 // 方式 2， UPDATE 已经存在的更新, SET, WHERE
+//    sql = @"UPDATE student SET age = 1234567";
+//    res = [self.fmDatabase executeUpdate:sql];
+//#elif 0 // 实现方式 1
+//    sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ (id, name, age) VALUES (?, ?, ?)", STUDENT_DB_TABLE_STUDENT];
+//    // 后面的参数必须是 id 类型，不可以是基础数据类型
+//    res = [self.fmDatabase executeUpdate:sql, @(20002), @"Steve", @(18)];
+//#elif 0 // 实现方式 2
+//
+//#endif
+//    NSLog(@"插入 %@ %@", name, res ? @"成功" : @"失败");
+//}
 
 @end
