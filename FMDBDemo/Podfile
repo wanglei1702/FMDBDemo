@@ -1,0 +1,7 @@
+platform :ios, '14.0'
+use_frameworks!
+
+target 'FMDBDemo' do
+
+    pod 'FMDB'
+end
