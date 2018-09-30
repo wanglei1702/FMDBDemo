@@ -87,7 +87,6 @@ static StudentDB *instance = nil;
     }
 }
 
- "INSERT OR REPLACE" 和 "UPDATE" 的区别：
 #pragma mark - 增 增加数据
 /// 插入一条数据，如果已经存在(id UNIQUE)，则替换
 - (void)insertWithID:(NSInteger)sID name:(NSString *)name age:(NSInteger)age
