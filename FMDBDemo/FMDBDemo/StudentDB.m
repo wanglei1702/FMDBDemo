@@ -116,13 +116,4 @@ static StudentDB *instance = nil;
     NSLog(@"插入 %@ %@", name, res ? @"成功" : @"失败");
 }
 
-
-
-
-
-
-
-
-
-
 @end
