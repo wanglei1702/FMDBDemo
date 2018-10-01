@@ -11,6 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+/**
+ 数据库操作，考虑线程安全(FMDatabaseQueue)
+ */
 @interface StudentDB_FMDatabaseQueue : NSObject <StudentDatabase>
 
 @end
