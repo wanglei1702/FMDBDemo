@@ -91,7 +91,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
         
         _path = FMDBReturnRetained(aPath);
         
+        //生成一个串行队列。
         _queue = dispatch_queue_create([[NSString stringWithFormat:@"fmdb.%@", self] UTF8String], NULL);
+        //给当前queue生成一个标示，给_queue这个GCD队列指定了一个kDispatchQueueSpecificKey字符串，并和self（即当前FMDatabaseQueue对象）进行绑定。日后可以通过此字符串获取到绑定的对象(此处就是self)。
         dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
         _openFlags = openFlags;
         _vfsName = [vfsName copy];
@@ -174,6 +176,9 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 #ifndef NDEBUG
     /* Get the currently executing queue (which should probably be nil, but in theory could be another DB queue
      * and then check it against self to make sure we're not about to deadlock. */
+    /*使用dispatch_get_specific来查看当前queue是否是之前设定的那个_queue，如果是的话，那么使用kDispatchQueueSpecificKey作为参数传给dispatch_get_specific的话，返回的值不为空，而且返回值应该就是上面initWithPath:函数中绑定的那个FMDatabaseQueue对象。有人说除了当前queue还有可能有其他什么queue？这就是FMDatabaseQueue的用途，你可以创建多个FMDatabaseQueue对象来并发执行不同的SQL语句。
+     另外为啥要判断是不是当前执行的这个queue？是为了防止死锁！
+     */
     FMDatabaseQueue *currentSyncQueue = (__bridge id)dispatch_get_specific(kDispatchQueueSpecificKey);
     assert(currentSyncQueue != self && "inDatabase: was called reentrantly on the same queue, which would lead to a deadlock");
 #endif

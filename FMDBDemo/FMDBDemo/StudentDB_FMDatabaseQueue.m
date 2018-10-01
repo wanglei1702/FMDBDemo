@@ -111,6 +111,29 @@
 #endif
     }];
     NSLog(@"修改 id : %@ 为 age : %@ %@", @(sID), @(age), res ? @"成功" : @"失败");
+    
+#if 0
+    // 事务, inTransaction
+    [self.dbQueue inTransaction:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
+        
+    }];
+#endif
+    
+#if 0
+    // 测试线程安全（串行队列）, 在不同线程去访问 FMDatabase, 串行执行，不会发生资源抢夺
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+            for (NSInteger i = 0; i < 1000; i++) {
+                NSLog(@"for 2 - %@ - %@", @(i), [NSThread currentThread]);
+            }
+        }];
+    });
+    [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        for (NSInteger i = 0; i < 1000; i++) {
+            NSLog(@"for 1 - %@ - %@", @(i), [NSThread currentThread]);
+        }
+    }];
+#endif
 }
 
 #pragma mark - 查
