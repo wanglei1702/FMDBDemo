@@ -30,12 +30,16 @@
 #if 0   // 增
         [self.sDB insertWithID:[self getSID] name:[self getName] age:[self getAge]];
 #elif 0 // 删
-        [self.sDB removeWithID:20011];
-#elif 1 // 改
+//        [self.sDB removeWithID:20011];
+        [self.sDB removeAllStudents];
+#elif 0 // 改
         [self.sDB updateWithID:20004 age:888];
-#elif 0 // 查
-        NSArray *resArray = [self.sDB allStudents];
+#elif 1 // 查
+//        NSArray *resArray = [self.sDB allStudents];
+        NSArray *resArray = [self.sDB allStudentsBeyond19];
         NSLog(@"allStudents : \n%@", resArray);
+#elif 0 // 删除表
+        [self.sDB dropStudentTable];
 #endif
 //        [self.sDB updateWith:4000 name:@"Jack" age:22];
     }
