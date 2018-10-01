@@ -6,29 +6,21 @@
 //  Copyright © 2018年 wanglei. All rights reserved.
 //
 
-#import "StudentDB.h"
+#import "StudentDB_FMDatabase.h"
 #import <FMDB/FMDB.h>
-
-#define FILE_PATH_IN_DOCUMENT(file) ([[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:(file)])
-
-/// 数据库文件名
-#define STUDENT_DB_FILE_NAME @"student.sqlite"
-/// 数据库文件完整路径
-#define STUDENT_DB_FILE_PATH (FILE_PATH_IN_DOCUMENT(STUDENT_DB_FILE_NAME))
-/// 表名 : student
-#define STUDENT_DB_TABLE_STUDENT @"student"
+#import "Macros.h"
 
 /// 单例对象
 static dispatch_once_t onceToken;
-static StudentDB *instance = nil;
+static StudentDB_FMDatabase *instance = nil;
 
-@interface StudentDB ()
+@interface StudentDB_FMDatabase ()
 
 @property (nonatomic, strong) FMDatabase *fmDatabase;
 
 @end
 
-@implementation StudentDB
+@implementation StudentDB_FMDatabase
 
 - (void)dealloc
 {
@@ -39,7 +31,7 @@ static StudentDB *instance = nil;
 + (instancetype)sharedInstance
 {
     dispatch_once(&onceToken, ^{
-        instance = [[StudentDB alloc] init];
+        instance = [[StudentDB_FMDatabase alloc] init];
     });
     return instance;
 }

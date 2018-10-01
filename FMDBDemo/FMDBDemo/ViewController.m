@@ -7,11 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "StudentDB.h"
+#import "StudentDB_FMDatabase.h"
 
 @interface ViewController ()
 
-@property (nonatomic, weak) StudentDB *sDB;
+@property (nonatomic, weak) StudentDB_FMDatabase *sDB;
 @end
 
 @implementation ViewController
@@ -25,7 +25,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if (self.sDB == nil) {
-        self.sDB = [StudentDB sharedInstance];
+        self.sDB = [StudentDB_FMDatabase sharedInstance];
     } else {
 #if 0   // 增
         [self.sDB insertWithID:[self getSID] name:[self getName] age:[self getAge]];

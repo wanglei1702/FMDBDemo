@@ -1,18 +1,19 @@
 //
-//  StudentDB.h
+//  StudentDatabase.h
 //  FMDBDemo
 //
-//  Created by wanglei on 2018/9/26.
-//  Copyright © 2018年 wanglei. All rights reserved.
+//  Created by wanglei on 2018/10/1.
+//  Copyright © 2018 wanglei. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- Student数据库 直接操作 FMDatabase 不考虑线程安全（不用FMDatabaseQueue）
+ 操作数据库的协议
  */
-@interface StudentDB : NSObject
+@protocol StudentDatabase <NSObject>
 
 /// 获取单例对象（创建数据库文件和表，如果不存在的话）
 + (instancetype)sharedInstance;
@@ -44,3 +45,5 @@
 - (void)dropStudentTable;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -8,18 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		1426F364919799265B69620E /* Pods_FMDBDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA46F5A42EDF4FBFF8ED8AC /* Pods_FMDBDemo.framework */; };
+		9B6AFC8B2161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6AFC8A2161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.m */; };
+		9B6AFC972161FC2B00FEAED2 /* StudentDBFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6AFC962161FC2B00FEAED2 /* StudentDBFactory.m */; };
 		9BEC556C215B7BC80059B928 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEC556B215B7BC80059B928 /* AppDelegate.m */; };
 		9BEC556F215B7BC80059B928 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEC556E215B7BC80059B928 /* ViewController.m */; };
 		9BEC5572215B7BC80059B928 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BEC5570215B7BC80059B928 /* Main.storyboard */; };
 		9BEC5574215B7BCD0059B928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BEC5573215B7BCD0059B928 /* Assets.xcassets */; };
 		9BEC5577215B7BCD0059B928 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BEC5575215B7BCD0059B928 /* LaunchScreen.storyboard */; };
 		9BEC557A215B7BCD0059B928 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEC5579215B7BCD0059B928 /* main.m */; };
-		9BEC5582215B7D5E0059B928 /* StudentDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEC5581215B7D5E0059B928 /* StudentDB.m */; };
+		9BEC5582215B7D5E0059B928 /* StudentDB_FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEC5581215B7D5E0059B928 /* StudentDB_FMDatabase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		67C303AB4267DAEDF4E6DF8D /* Pods-FMDBDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMDBDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FMDBDemo/Pods-FMDBDemo.release.xcconfig"; sourceTree = "<group>"; };
 		6EE6F9F92CE4AA4695B8A9DE /* Pods-FMDBDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMDBDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FMDBDemo/Pods-FMDBDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		9B6AFC882161ECEE00FEAED2 /* StudentDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentDatabase.h; sourceTree = "<group>"; };
+		9B6AFC892161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentDB_FMDatabaseQueue.h; sourceTree = "<group>"; };
+		9B6AFC8A2161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StudentDB_FMDatabaseQueue.m; sourceTree = "<group>"; };
+		9B6AFC8C2161F56100FEAED2 /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
+		9B6AFC952161FC2B00FEAED2 /* StudentDBFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentDBFactory.h; sourceTree = "<group>"; };
+		9B6AFC962161FC2B00FEAED2 /* StudentDBFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StudentDBFactory.m; sourceTree = "<group>"; };
 		9BEC5567215B7BC80059B928 /* FMDBDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FMDBDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEC556A215B7BC80059B928 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9BEC556B215B7BC80059B928 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -30,8 +38,8 @@
 		9BEC5576215B7BCD0059B928 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9BEC5578215B7BCD0059B928 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BEC5579215B7BCD0059B928 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9BEC5580215B7D5E0059B928 /* StudentDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentDB.h; sourceTree = "<group>"; };
-		9BEC5581215B7D5E0059B928 /* StudentDB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StudentDB.m; sourceTree = "<group>"; };
+		9BEC5580215B7D5E0059B928 /* StudentDB_FMDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentDB_FMDatabase.h; sourceTree = "<group>"; };
+		9BEC5581215B7D5E0059B928 /* StudentDB_FMDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StudentDB_FMDatabase.m; sourceTree = "<group>"; };
 		AFA46F5A42EDF4FBFF8ED8AC /* Pods_FMDBDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMDBDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,8 +89,14 @@
 				9BEC556B215B7BC80059B928 /* AppDelegate.m */,
 				9BEC556D215B7BC80059B928 /* ViewController.h */,
 				9BEC556E215B7BC80059B928 /* ViewController.m */,
-				9BEC5580215B7D5E0059B928 /* StudentDB.h */,
-				9BEC5581215B7D5E0059B928 /* StudentDB.m */,
+				9B6AFC8C2161F56100FEAED2 /* Macros.h */,
+				9B6AFC882161ECEE00FEAED2 /* StudentDatabase.h */,
+				9B6AFC952161FC2B00FEAED2 /* StudentDBFactory.h */,
+				9B6AFC962161FC2B00FEAED2 /* StudentDBFactory.m */,
+				9BEC5580215B7D5E0059B928 /* StudentDB_FMDatabase.h */,
+				9BEC5581215B7D5E0059B928 /* StudentDB_FMDatabase.m */,
+				9B6AFC892161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.h */,
+				9B6AFC8A2161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.m */,
 				9BEC5570215B7BC80059B928 /* Main.storyboard */,
 				9BEC5573215B7BCD0059B928 /* Assets.xcassets */,
 				9BEC5575215B7BCD0059B928 /* LaunchScreen.storyboard */,
@@ -213,8 +227,10 @@
 			files = (
 				9BEC556F215B7BC80059B928 /* ViewController.m in Sources */,
 				9BEC557A215B7BCD0059B928 /* main.m in Sources */,
+				9B6AFC972161FC2B00FEAED2 /* StudentDBFactory.m in Sources */,
 				9BEC556C215B7BC80059B928 /* AppDelegate.m in Sources */,
-				9BEC5582215B7D5E0059B928 /* StudentDB.m in Sources */,
+				9B6AFC8B2161EE8E00FEAED2 /* StudentDB_FMDatabaseQueue.m in Sources */,
+				9BEC5582215B7D5E0059B928 /* StudentDB_FMDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
