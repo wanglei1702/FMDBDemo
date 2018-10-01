@@ -28,7 +28,7 @@
     dispatch_once(&onceToken, ^{
         instance = [[[self class] alloc] init];
     });
-    return nil;
+    return instance;
 }
 
 - (instancetype)init
@@ -90,15 +90,15 @@
 - (void)updateWithID:(NSInteger)sID age:(NSInteger)age
 {
     __block BOOL res = NO;
-    
+    BOOL exist = NO;
+    exist = [self checkExistSID:sID];
+
     [self.dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
-        BOOL exist = NO;
         NSString *sql = nil;
 #if 0 // 不管是否存在这条数据，都直接执行修改；若数据不存在，改语句执行之后数据库不会有变化
         sql = [NSString stringWithFormat:@"UPDATE %@ SET age = ? WHERE id = %@", STUDENT_DB_TABLE_STUDENT, @(sID)];
         res = [db executeUpdate:sql, @(age)];
 #elif 1 // 先判断是否存在这条数据，如果存在则修改，否则增加一条数据
-        exist = [self checkExistSID:sID];
         if (exist) {
             // 存在
             sql = [NSString stringWithFormat:@"UPDATE %@ SET age = ? WHERE id = %@", STUDENT_DB_TABLE_STUDENT, @(sID)];
@@ -157,10 +157,10 @@
             if (name) {
                 [dict setObject:name forKey:@"name"];
             }
-            sDict = sDict;
+            sDict = dict;
         }
     }];
-    return nil;
+    return sDict;
 }
 
 /// 查询所有年龄大于等于19的row，且结果按年龄从大到小排序，若年龄相同则按id从大到小排序
